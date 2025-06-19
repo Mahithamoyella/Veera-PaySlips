@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: veera-frontend
+    build: ./Frontend
+    ports:
+      - "8016:80"
+    networks:
+      - veera_net
+
+  hr:
+    container_name: veera-hr
+    build: ./HR
+    ports:
+      - "8017:80"
+    networks:
+      - veera_net
+
+  payslip:
+    container_name: veera-payslip
+    build: ./Payslip
+    ports:
+      - "8018:80"
+    networks:
+      - veera_net
+
+  backend:
+    container_name: veera-backend
+    build: ./Backend
+    ports:
+      - "3009:3009"
+    depends_on:
+      - postgres
+    networks:
+      - veera_net
+
+  postgres:
+    container_name: veera-postgres
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_DB: payroll_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin834
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5441:5432"
+    networks:
+      - veera_net
+
+networks:
+  veera_net:
+
+volumes:
+  pgdata:
+
