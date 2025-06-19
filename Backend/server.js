@@ -284,5 +284,5 @@ app.get('/api/tax-records/:month', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://18.212.66.59:${port}`);
+    console.log(`Server running at http://3.86.140.254:${port}`);
 });
